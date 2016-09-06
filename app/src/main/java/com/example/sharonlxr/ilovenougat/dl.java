@@ -63,13 +63,14 @@ public class dl extends AppCompatActivity {
             ArrayList<ItemData> re = new ArrayList<ItemData>();
             while(!results.isNull(n)){
                 JSONObject ob = results.getJSONObject(n);
+                String name = ob.getString("productName");
                 String pr = ob.getString("price");
                 String pid =ob.getString("productId");
                 String discount = ob.getString("percentOff");
                 String image = pid+"img";
                 String url = ob.getString("productUrl");
                 Bitmap bt = (Bitmap)jo.get(image);
-                ItemData ida = new ItemData(pid,pr,discount,url,bt);
+                ItemData ida = new ItemData(pid,name,pr,discount,url,bt);
                 re.add(ida);
                 n+=1;
             }
@@ -142,14 +143,14 @@ public class dl extends AppCompatActivity {
     }
 
     public class ItemData {
-
+        public String name;
         public String title;
         public String price;
         public String disc;
         public Bitmap imageUrl;
         public String url;
-        public ItemData(String title,String pr , String dis,String rl,Bitmap image){
-
+        public ItemData(String title,String nm,String pr , String dis,String rl,Bitmap image){
+            this.name=nm;
             this.title = title;
             this.disc = dis;
             this.price =pr;
@@ -175,7 +176,7 @@ public class dl extends AppCompatActivity {
         public String getTitle() {
             return title;
         }
-
+        public String getName(){return name;}
         public Bitmap getImageUrl() {
             return imageUrl;
         }
@@ -203,10 +204,12 @@ public class dl extends AppCompatActivity {
             try{
             viewHolder.txtViewTitle.setText(itemsData.get(position).getTitle());
             viewHolder.pr.setText(itemsData.get(position).getpr());
-            viewHolder.dc.setText(itemsData.get(position).getdc());
+            viewHolder.dc.setText("Discount:"+itemsData.get(position).getdc());
+            viewHolder.nameTV.setText(itemsData.get(position).getName());
             if(itemsData.get(position).getImageUrl()!=null){
             viewHolder.imgViewIcon.setImageBitmap(itemsData.get(position).getImageUrl());
-            }}catch (Exception e){
+            }
+            }catch (Exception e){
                 Intent inten = new Intent(dl.this,errorTest.class);
                 inten.putExtra("error",e.toString()+e.getStackTrace());
                 startActivity(inten);
@@ -220,15 +223,28 @@ public class dl extends AppCompatActivity {
             public TextView txtViewTitle;
             public TextView pr;
             public TextView dc;
-
+            public TextView nameTV;
             public ImageView imgViewIcon;
 
             public CViewHolder(View itemLayoutView) {
                 super(itemLayoutView);
+                nameTV=(TextView)itemLayoutView.findViewById(R.id.item_name);
                 txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.item_title);
                 pr = (TextView)itemLayoutView.findViewById(R.id.price);
                 dc = (TextView)itemLayoutView.findViewById(R.id.discount);
                 txtViewTitle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String productId = (String)txtViewTitle.getText();
+                        String price = (String)pr.getText();
+                        String newpr = price.substring(1);
+
+                        Float priceNum = Float.parseFloat(newpr);
+                        String url = getUrl(productId);
+                        ComparePrice(productId,priceNum,url);
+                    }
+                });
+                nameTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String productId = (String)txtViewTitle.getText();
