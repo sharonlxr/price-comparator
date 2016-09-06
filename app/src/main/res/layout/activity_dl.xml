@@ -14,29 +14,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/testList"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="112dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/total"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="43dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/errorInfoTV"
-        android:layout_alignBottom="@+id/total"
-        android:layout_alignRight="@+id/testList"
-        android:layout_alignEnd="@+id/testList" />
 </RelativeLayout>
