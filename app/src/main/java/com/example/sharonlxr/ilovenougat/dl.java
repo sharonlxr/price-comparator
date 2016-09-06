@@ -1,10 +1,12 @@
 package com.example.sharonlxr.ilovenougat;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +19,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.zxing.BarcodeFormat;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -244,6 +250,15 @@ public class dl extends AppCompatActivity {
                         ComparePrice(productId,priceNum,url);
                     }
                 });
+                txtViewTitle.setOnLongClickListener(new View.OnLongClickListener(){
+                    @Override
+                    public  boolean onLongClick(View v){
+                        String productId = (String)txtViewTitle.getText();
+                        showBarcode(productId);
+                        return true;
+
+                    }
+                });
                 nameTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -316,7 +331,40 @@ public class dl extends AppCompatActivity {
             startActivity(in);
         }
     }
+    public void showBarcode(String productID) {
+        Dialog builder = new Dialog(this);
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        builder.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                //nothing;
+            }
+        });
 
-
+        ImageView imageView = new ImageView(this);
+        BarcodeEncoder be = new BarcodeEncoder();
+        try{
+        Bitmap image = be.encodeAsBitmap(productID, BarcodeFormat.CODE_128, 600, 300);
+            imageView.setImageBitmap(image);
+        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        builder.show();}catch (Exception e){
+            builder.dismiss();
+        }
+    }
+//    public Bitmap Ean13_Encode(String qrData,  int qrCodeDimention) {
+//        Bitmap bitmap= Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+//        QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(qrData, null,
+//                Contents.Type.TEXT, BarcodeFormat.EAN_13.toString(), qrCodeDimention);
+//        try {
+//            bitmap = qrCodeEncoder.encodeAsBitmap();
+//        } catch (WriterException e) {
+//            e.printStackTrace();
+//        };
+//        return bitmap;
+//    };
 
 }
