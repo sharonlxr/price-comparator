@@ -44,6 +44,8 @@ public class dl extends AppCompatActivity {
         String ni =getIntent().getStringExtra("query");
         setContentView(R.layout.activity_dl);
         RecyclerView rv= (RecyclerView)findViewById(R.id.rv);
+//        rv.setEnabled(false);
+//        tt.setEnabled(false);
          zq = new zappoQuery();
         try{
 
@@ -198,12 +200,17 @@ public class dl extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(CViewHolder viewHolder, int position) {
-
+            try{
             viewHolder.txtViewTitle.setText(itemsData.get(position).getTitle());
             viewHolder.pr.setText(itemsData.get(position).getpr());
             viewHolder.dc.setText(itemsData.get(position).getdc());
             if(itemsData.get(position).getImageUrl()!=null){
             viewHolder.imgViewIcon.setImageBitmap(itemsData.get(position).getImageUrl());
+            }}catch (Exception e){
+                Intent inten = new Intent(dl.this,errorTest.class);
+                inten.putExtra("error",e.toString()+e.getStackTrace());
+                startActivity(inten);
+
             }
 //            viewHolder.imgViewIcon.setImageResource(itemsData[position].getImageUrl());
         }
