@@ -1,5 +1,6 @@
 package com.example.sharonlxr.ilovenougat;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.inputmethodservice.ExtractEditText;
@@ -9,9 +10,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     ExtractEditText  editText;
+    static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
+
     private class MyFocusChangeListener implements View.OnFocusChangeListener {
 
         public void onFocusChange(View v, boolean hasFocus){
@@ -44,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
 //        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         setContentView(R.layout.activity_main);
+        Button scanBt= (Button)findViewById(R.id.startScan);
+        scanBt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View v){
+                Intent intent = new Intent(MainActivity.this,scanBarcode.class);
+                startActivity(intent);
+            }
+        });
     }
     protected  void clearOnClick(View v){
 
@@ -71,4 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }

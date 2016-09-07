@@ -29,4 +29,13 @@
         android:layout_below="@+id/searchInput"
         android:layout_centerHorizontal="true"
         android:onClick="submit" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="scan"
+        android:id="@+id/startScan"
+        android:layout_below="@+id/submit"
+        android:layout_alignLeft="@+id/submit"
+        android:layout_alignStart="@+id/submit" />
 </RelativeLayout>
