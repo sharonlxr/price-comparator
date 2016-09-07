@@ -259,6 +259,15 @@ public class dl extends AppCompatActivity {
 
                     }
                 });
+                nameTV.setOnLongClickListener(new View.OnLongClickListener(){
+                    @Override
+                    public  boolean onLongClick(View v){
+                        String productId = (String)txtViewTitle.getText();
+                        showBarcode(productId);
+                        return true;
+
+                    }
+                });
                 nameTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -273,6 +282,26 @@ public class dl extends AppCompatActivity {
                 });
 
                 imgViewIcon = (ImageView) itemLayoutView.findViewById(R.id.item_icon);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String productId = (String)txtViewTitle.getText();
+                        showBarcode(productId);
+                        String url = getUrl(productId);
+                        Uri uriUrl = Uri.parse(url);
+                        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                        startActivity(launchBrowser);
+                    }
+                });
+                itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                    @Override
+                    public  boolean onLongClick(View v){
+                        String productId = (String)txtViewTitle.getText();
+                        showBarcode(productId);
+                        return true;
+
+                    }
+                });
             }
 
         }
